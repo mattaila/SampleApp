@@ -1,0 +1,1 @@
+INSERT INTO accounts(username, password, role, enabled, invaliddate) VALUES('testuser', '$2a$10$R/jnN6upwT4bLNGEvQTHYOVE.cDXxGpHTs5IAs1hbeOrO.PuGMI02', 'ADMIN', true, '2024-09-16');
