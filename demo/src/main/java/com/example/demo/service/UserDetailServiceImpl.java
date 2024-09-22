@@ -8,26 +8,28 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.dto.Account;
-import com.example.demo.repository.AccountsRepository;
+import com.example.demo.mapper.AccountMapper;
 
 import jakarta.transaction.Transactional;
+import java.util.Objects;
 
 @Component
 @Transactional
 public class UserDetailServiceImpl implements UserDetailsService {
 	// ユーザー情報テーブル用のリポジトリを注入
 	@Autowired
-	private AccountsRepository accountsRepository;
+	private AccountMapper accountMapper;
 
+	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// DBからユーザー情報をSELECTする。
 		// ユーザーが見つからない場合は例外をスローする
-		Account account = accountsRepository.findById(username)
-				.orElseThrow(() -> {
-					System.out.println("ユーザー:" + username + "が見つかりません。");
-					throw new UsernameNotFoundException(username);
-				});
+		Account account = accountMapper.findOne(username);
+		if(Objects.isNull(account)){
+			System.out.println("ユーザー:" + username + "が見つかりません。");
+			throw new UsernameNotFoundException(username);
+		}
 		
 		//有効期限が切れている場合は例外をスローする
 		if(account.isExpired()) {

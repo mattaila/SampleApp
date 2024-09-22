@@ -2,17 +2,11 @@ package com.example.demo.dto;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Data;
 
-@Entity
-@Table(name = "accounts")
 @Data
 public class Account {
     
-	@Id
 	private String username;
 	private String password;
 	private String role;

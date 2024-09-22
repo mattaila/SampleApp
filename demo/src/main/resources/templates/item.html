@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+  <head>
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <form th:action="@{/logout}" method="post">
+      <input type="submit" value="Sign Out"/>
+    </form>
+
+
+    <form th:action="@{/create}" method="post" th:object="${item}">
+      <div><label> item name : <input type="text" th:field="*{itemName}"/> </label></div>
+      <div th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}" th:errorclass="err"></div>
+      <div><label> price: <input type="number" th:field="*{price}"/> </label></div>
+      <div><label> item description : <input type="text" th:field="*{itemDescription}"/> </label></div>
+      <div><input type="submit" value="create"/></div>
+    </form>
+
+    
+    <div th:if="${#arrays.length(#fields.detailedErrors())} > 0" class="row">
+      <div th:each="error : ${#fields.detailedErrors()}">
+          <span th:text="${error.message}">
+      </div>
+    </div>
+
+
+    <div>商品一覧</div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>商品名</th>
+            <th>価格</th>
+            <th>商品説明</th>
+        </tr>
+        <tr th:each="item:${pages}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.itemName}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.itemDescription}"></td>
+        </tr>
+    </table>
+  </body>
+</html>
